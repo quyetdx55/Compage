@@ -1,40 +1,61 @@
 // var DEBUG = true;
-var couchbase = require('C:\\Users\\dxquy\\AppData\\Roaming\\npm\\node_modules\\couchbase');
-var http = require('http')
-var url = require('url');
-var fs = require('fs')
-http.createServer(function(req, res) {
-    if (req.url.indexOf('?') !== -1) {
-    	console.log(req.url)
-        var url_parts = url.parse(req.url, true);
-        var query = url_parts.query;
-        // if (DEBUG) {
-            // console.log(query)
-        // }
-        var myCluster = new couchbase.Cluster('http://localhost:8091');
-        var myBucket = myCluster.openBucket('account');
-        myBucket.insert('', {
-            'username': query.username,
-            'password': query.password
-        }, function(err, res) {
-            console.log(err + '\n' + res);
-        });
+var http = require('http');
+const PORT = 3000
+
+function handleRequest(request, response) {}
+var server = http.createServer(handleRequest);
+server.listen(PORT, function() {
+    //Callback triggered when server is successfully listening. Hurray!
+    console.log("Server listening on: http://localhost:%s", PORT);
+});
+var dispatcher = require('httpdispatcher');
+
+function handleRequest(request, response) {
+    try {
+        //log the request on console
+        console.log(request.url);
+        //Disptach
+        dispatcher.dispatch(request, response);
+    } catch (err) {
+        console.error(err);
+        request.connection.destroy()
     }
-    // if (DEBUG) {
-        // console.log(req.url)
-    // }
-    fs.readFile('./CompageClient/www/index.html', function(err, html) {
+}
+var couchbase = require('couchbase');
+var myCluster = new couchbase.Cluster('localhost:8091')
+var myBucket = myCluster.openBucket('account');
+var gAccNum = 0; // number of Account in DB [global]
+var formidable = require("formidable");
+dispatcher.onPost("/signUp.js", function(req, res) {
+    var success = true
+    var form = new formidable.IncomingForm()
+    form.encoding = 'utf-8';
+    form.parse(req, function(err, fields, files) {
         if (err) {
-            throw err;
+            // Check for and handle any errors here.
+            console.error(err.message);
+            return;
         }
-        res.writeHeader(200, {
-            "Content-Type": "text/html"
+        myBucket.insert(gAccNum + '', {
+            username: fields['username'],
+            password: fields['password']
+        }, function(err, res) {
+            if (err) {
+                console.error(err)
+                success = false
+            } else {
+                gAccNum++
+                // console.log('Success!');
+            }
         });
-        res.write(html);
-        res.end();
-    })
-}).listen(2201, '127.0.0.1');
-console.log('Server running.');
-// myBucket.get('account', function(err, res) {
-//     console.log('Value: ', res.value);
-// });
+    });
+    res.writeHead(200, {
+        'content-type': 'text/plain'
+    });
+    if (success) {
+        res.end('success')
+    }
+    else {
+        res.end('failed');
+    }
+});

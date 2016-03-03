@@ -17,6 +17,18 @@
  * under the License.
  */
 
+.gwd-p-14zy {
+    position: absolute;
+    width: 236px;
+    height: 43px;
+    font-family: 'Times New Roman';
+    color: rgb(0, 0, 0);
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-118px, -21px, 0px);
+    transform-style: preserve-3d;
+}
+
 p {
     margin: 0px;
 }
@@ -107,6 +119,14 @@ body {
 .gwd-button-35h4 {
     left: 217px;
     top: 133px;
+}
+
+.page {
+    opacity: 0
+}
+
+.visible {
+    opacity: 1
 }
 
 

@@ -36,9 +36,9 @@
             Compage
         </title>
     </head>
-    <body>
+    <body id='deviceready'>
         <div class="logIn page">
-            <form class="gwd-form-6f2n" style="" action="server.js">
+            <form class="gwd-form-6f2n" style="">
                 <p class="gwd-p-1sod gwd-p-15i6">
                     Username:
                 </p>
@@ -46,7 +46,7 @@
                 <p class="gwd-p-1sod gwd-p-15i6 gwd-p-1gtn">
                     Password:
                 </p>
-                <input class="gwd-input-jv1c gwd-input-1imq gwd-input-el51" name="password"/>
+                <input type="password" class="gwd-input-jv1c gwd-input-1imq gwd-input-el51" name="password"/>
                 <input type="button" class="gwd-button-1r5p" value="Log in"/>
             </form>
         </div>
@@ -56,16 +56,23 @@
                     Username:
                 </p>
                 <input class="gwd-input-jv1c gwd-input-1imq"/>
-                <input class="gwd-input-jv1c gwd-input-1imq gwd-input-el51"/>
                 <p class="gwd-p-1sod gwd-p-15i6 gwd-p-1gtn">
                     Password:
                 </p>
+                <input type="password" class="gwd-input-jv1c gwd-input-1imq gwd-input-el51"/>
                 <input type="button" class="gwd-button-1r5p" value="Sign up"/>
             </form>
         </div>
+        <div class="alert page">
+            <p class="gwd-p-14zy" style="">
+                <br/>
+            </p>
+        </div>
         <script type="text/javascript" src="cordova.js">
         </script>
-        <script type="text/javascript" src="./js/index.js">
+        <script type="text/javascript" src="js/index.js">
+        </script>
+        <script type="text/javascript" src="js/jquery-2.2.1.min.js">
         </script>
     </body>
 </html>

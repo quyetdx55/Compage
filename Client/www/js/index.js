@@ -37,15 +37,20 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+        $(".signUp.page").addClass('visible')
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
+        function signUp() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    $('.alert').addClass('visible float')
+                    setTimeout(function() {$('.alert').removeClass('visible float')}, 2000)
+                }
+            };
+            xhttp.open("POST", "http://localhost:9090/signUp.js", true);
+            xhttp.send();
+        }
+        $('.gwd-button-1r5p').on('click', signUp)
     }
 };
-
 app.initialize();
